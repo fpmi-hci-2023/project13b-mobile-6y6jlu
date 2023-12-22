@@ -34,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.forwords.R
+import com.example.forwords.data.BookModel
 import com.example.forwords.data.ReviewModel
 import com.example.testapp.ui.theme.LightBlue
 import com.example.testapp.ui.theme.ToxicGreen
@@ -42,7 +43,6 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Preview(showBackground =  true)
 @Composable
 fun BookScreen() {
     Image(

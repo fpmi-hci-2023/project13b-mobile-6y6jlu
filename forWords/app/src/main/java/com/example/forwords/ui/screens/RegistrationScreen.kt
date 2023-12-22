@@ -2,7 +2,6 @@ package com.example.forwords.ui.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,12 +24,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.forwords.R
@@ -38,12 +34,12 @@ import com.example.forwords.R
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun LoginScreen(
-    onNavigateToRegistration: () -> Unit,
-    onNavigateToAuthenticatedRoute: () -> Unit
-) {
+fun RegistrationScreen(onNavigateToAuthenticatedRoute: () -> Unit) {
     val login = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
+    val email = remember { mutableStateOf("") }
+    val name = remember { mutableStateOf("") }
+
     Image(
         painter = painterResource(id = R.drawable.background),
         contentDescription = "background_image",
@@ -103,12 +99,39 @@ fun LoginScreen(
                     disabledIndicatorColor = Color.Transparent
                 )
             )
-
             Spacer(modifier = Modifier.height(20.dp))
-            Button(onClick = {
-                onNavigateToAuthenticatedRoute.invoke()
-            }) {
-                Text(text = "Log in")
+            TextField(
+                label = { Text("Email") },
+                value = email.value,
+                onValueChange = {
+                    email.value = it
+                },
+                shape = RoundedCornerShape(20.dp),
+                colors = TextFieldDefaults.textFieldColors(
+                    disabledTextColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent
+                )
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            TextField(
+                label = { Text("Name") },
+                value = name.value,
+                onValueChange = {
+                    name.value = it
+                },
+                shape = RoundedCornerShape(20.dp),
+                colors = TextFieldDefaults.textFieldColors(
+                    disabledTextColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent
+                )
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            Button(onClick = { }) {
+                Text(text = "Register")
             }
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -116,17 +139,8 @@ fun LoginScreen(
                 text = "tip: don’t read books in moving vehicles",
                 modifier = Modifier.padding(10.dp),
                 textAlign = TextAlign.Center,
+
                 )
-            Text(
-                text = buildAnnotatedString {
-                    append("Don't have an account? ")
-                    withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
-                        append("Register")
-                    }
-                },
-                modifier = Modifier.padding(10.dp).clickable { onNavigateToRegistration.invoke() },
-                textAlign = TextAlign.Center,
-            )
         }
     }
 }
