@@ -10,7 +10,7 @@ object ServiceBuilder {
         .connectTimeout(60, TimeUnit.SECONDS)
         .readTimeout(60, TimeUnit.SECONDS)
         .writeTimeout(60, TimeUnit.SECONDS).build()
-    private var url = "http://192.168.100.11:5000"
+    private var url = "http://192.168.100.11:8080"
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(url)

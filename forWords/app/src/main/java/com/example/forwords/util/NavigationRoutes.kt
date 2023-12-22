@@ -1,9 +1,5 @@
 package com.example.forwords.util
 
-import com.example.forwords.ui.screens.BookScreen
-import com.example.forwords.ui.screens.LoginScreen
-import com.example.forwords.ui.screens.UserScreen
-
 sealed class NavigationRoutes {
 
     // Unauthenticated Routes

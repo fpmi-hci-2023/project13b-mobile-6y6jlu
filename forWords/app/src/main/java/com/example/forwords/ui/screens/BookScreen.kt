@@ -167,7 +167,6 @@ fun BookTabLayout() {
             ReviewModel("Mike Penya", "Good book", 5.0f),
             ReviewModel("Mike Menyan", "Bad book", 3.0f),
             ReviewModel("Robin Kul", "Norm book", 4.0f),
-
             )
         List(reviews1)
     }

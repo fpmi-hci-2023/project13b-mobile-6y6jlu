@@ -1,6 +1,7 @@
 package com.example.forwords.ui.screens
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -34,6 +36,10 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.forwords.R
+import com.example.forwords.data.LoginCredentials
+import com.example.forwords.network.ApiManager
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -44,6 +50,9 @@ fun LoginScreen(
 ) {
     val login = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
+    val apiService = ApiManager()
+    val coroutineScope = rememberCoroutineScope()
+
     Image(
         painter = painterResource(id = R.drawable.background),
         contentDescription = "background_image",
@@ -106,12 +115,17 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
             Button(onClick = {
-                onNavigateToAuthenticatedRoute.invoke()
+                val login_cred = LoginCredentials(login.value, password.value)
+                apiService.signIn(login_cred) {
+                    if(it != null) {
+                        onNavigateToAuthenticatedRoute.invoke()
+                    }
+                }
             }) {
                 Text(text = "Log in")
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(200.dp))
             Text(
                 text = "tip: don’t read books in moving vehicles",
                 modifier = Modifier.padding(10.dp),
@@ -124,7 +138,9 @@ fun LoginScreen(
                         append("Register")
                     }
                 },
-                modifier = Modifier.padding(10.dp).clickable { onNavigateToRegistration.invoke() },
+                modifier = Modifier
+                    .padding(10.dp)
+                    .clickable { onNavigateToRegistration.invoke() },
                 textAlign = TextAlign.Center,
             )
         }

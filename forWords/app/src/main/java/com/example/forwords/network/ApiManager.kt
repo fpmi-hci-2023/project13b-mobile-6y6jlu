@@ -1,5 +1,6 @@
 package com.example.forwords.network
 
+import com.example.forwords.data.BookModel
 import com.example.forwords.data.LoginCredentials
 import com.example.forwords.data.LoginResponse
 import com.example.forwords.data.RegisterCredentials
@@ -40,6 +41,44 @@ class ApiManager {
                 }
 
                 override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                    onResult(null)
+                }
+            }
+        )
+    }
+
+    fun getBookByName(name: String, onResult: (List<BookModel>?) -> Unit) {
+        val retrofit = ServiceBuilder.buildService(IConnectAPI::class.java)
+        retrofit.getBookByName(name).enqueue(
+            object : Callback<List<BookModel>> {
+                override fun onResponse(
+                    call: Call<List<BookModel>>,
+                    response: Response<List<BookModel>>
+                ) {
+                    var result = response.body()
+                    onResult(result)
+                }
+
+                override fun onFailure(call: Call<List<BookModel>>, t: Throwable) {
+                    onResult(null)
+                }
+            }
+        )
+    }
+
+    fun getAllBooks(onResult: (List<BookModel>?) -> Unit) {
+        val retrofit = ServiceBuilder.buildService(IConnectAPI::class.java)
+        retrofit.getAllBooks().enqueue(
+            object : Callback<List<BookModel>> {
+                override fun onResponse(
+                    call: Call<List<BookModel>>,
+                    response: Response<List<BookModel>>
+                ) {
+                    var result = response.body()
+                    onResult(result)
+                }
+
+                override fun onFailure(call: Call<List<BookModel>>, t: Throwable) {
                     onResult(null)
                 }
             }

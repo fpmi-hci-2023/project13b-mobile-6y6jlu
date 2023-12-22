@@ -17,7 +17,6 @@ fun NavGraph(navHostController: NavHostController) {
     ) {
         unauthenticatedGraph(navController = navHostController)
 
-        // Authenticated user flow screens
         authenticatedGraph(navController = navHostController)
     }
 }
@@ -29,7 +28,6 @@ fun NavGraphBuilder.unauthenticatedGraph(navController: NavHostController) {
         startDestination = NavigationRoutes.Unauthenticated.Login.route
     ) {
 
-        // Login
         composable(route = NavigationRoutes.Unauthenticated.Login.route) {
             LoginScreen(
                 onNavigateToRegistration = {
@@ -45,7 +43,6 @@ fun NavGraphBuilder.unauthenticatedGraph(navController: NavHostController) {
             )
         }
 
-        // Registration
         composable(route = NavigationRoutes.Unauthenticated.Registration.route) {
             RegistrationScreen(onNavigateToAuthenticatedRoute = {
                 navController.navigate(route = NavigationRoutes.Authenticated.NavigationRoute.route) {
@@ -58,9 +55,6 @@ fun NavGraphBuilder.unauthenticatedGraph(navController: NavHostController) {
     }
 }
 
-/**
- * Authenticated screens nav graph builder
- */
 fun NavGraphBuilder.authenticatedGraph(navController: NavHostController) {
     navigation(
         route = NavigationRoutes.Authenticated.NavigationRoute.route,
@@ -76,7 +70,7 @@ fun NavGraphBuilder.authenticatedGraph(navController: NavHostController) {
         }
 
         composable(route = NavigationRoutes.Authenticated.Book.route) {
-                BookScreen()
+            BookScreen()
         }
     }
 }
