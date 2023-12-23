@@ -47,7 +47,7 @@ fun MainScreen(context: Context) {
     ModalNavigationDrawer(drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-                DrawerHeader()
+                DrawerHeader(navController)
                 DrawerBody(navController)
             }
         }) {

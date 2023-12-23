@@ -2,6 +2,7 @@ package com.example.forwords.ui.screens
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -47,6 +48,7 @@ import com.example.forwords.data.UserBookModel
 import com.example.forwords.data.UserModel
 import com.example.forwords.network.ApiManager
 import com.example.forwords.util.DataStoreManager
+import com.example.testapp.ui.theme.AnnBack
 import com.example.testapp.ui.theme.LightBlue
 import com.example.testapp.ui.theme.SelectedTab
 import com.example.testapp.ui.theme.SimpleTab
@@ -66,6 +68,7 @@ fun UserScreen(onNavigateToBook: (book_id: Int) -> Unit, context: Context) {
     apiService.getUserById(user_id.value) {
         if (it != null) {
             user.value = it
+            Log.d("MYTAG", user.value.name)
         }
     }
     val bookList = remember { mutableStateListOf<UserBookModel>() }
@@ -88,7 +91,9 @@ fun UserScreen(onNavigateToBook: (book_id: Int) -> Unit, context: Context) {
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Image(
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = "logo",
@@ -101,7 +106,7 @@ fun UserScreen(onNavigateToBook: (book_id: Int) -> Unit, context: Context) {
             Text(
                 text = user.value.name,
                 fontSize = 20.sp,
-                modifier = Modifier.padding(top = 40.dp, start = 40.dp)
+                modifier = Modifier.padding(top = 10.dp, start = ((200 - user.value.name.length) / 2).dp)
             )
         }
         Image(
@@ -112,6 +117,12 @@ fun UserScreen(onNavigateToBook: (book_id: Int) -> Unit, context: Context) {
                 .size(200.dp)
                 .clip(CircleShape),
         )
+        Text(
+            text = user.value.info,
+            fontSize = 20.sp,
+            modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)
+        )
+
         TabLayout(bookList, onNavigateToBook)
     }
 }
@@ -161,7 +172,7 @@ fun TabLayout(bookList: MutableList<UserBookModel>, onNavigateToBook: (book_id: 
 
         when (tabIndex) {
             0 -> {
-                books.value =  bookList.filter { it -> it.status == "Буду читать" }
+                books.value = bookList.filter { it -> it.status == "Буду читать" }
                 UserBookList(list = books.value, onNavigateToBook = onNavigateToBook)
             }
 
@@ -194,8 +205,10 @@ fun UserBookList(list: List<UserBookModel>, onNavigateToBook: (book_id: Int) -> 
 fun UserBookItem(item: UserBookModel, onNavigateToBook: (book_id: Int) -> Unit) {
     Row(
         modifier = Modifier
+            .clip(RoundedCornerShape(8.dp))
             .fillMaxSize()
             .border(2.dp, Color.Gray, RoundedCornerShape(8.dp))
+            .background(TabBack)
             .clickable {
                 onNavigateToBook(item.book_id)
             },

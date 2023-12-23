@@ -31,7 +31,7 @@ import com.example.testapp.ui.theme.LightBlue
 
 
 @Composable
-fun DrawerHeader() {
+fun DrawerHeader(navController: NavHostController) {
     Row(horizontalArrangement = Arrangement.SpaceBetween) {
         Image(
             painter = painterResource(id = R.drawable.logo),
@@ -39,26 +39,32 @@ fun DrawerHeader() {
             modifier = Modifier
                 .padding(top = 10.dp, start = 10.dp)
                 .size(120.dp)
-                .clip(RoundedCornerShape(8.dp)),
-
-            )
+                .clip(RoundedCornerShape(8.dp))
+                .clickable {
+                    navController.navigate(route = NavigationRoutes.Authenticated.Home.route)
+                }
+        )
     }
 }
 
 @Composable
-fun DrawerBody(navController: NavHostController, context: Context) {
-    LazyColumn(modifier = Modifier
-        .padding(15.dp)
-        .fillMaxWidth()
-        .clip(RoundedCornerShape(15.dp))) {
+fun DrawerBody(navController: NavHostController) {
+    LazyColumn(
+        modifier = Modifier
+            .padding(15.dp)
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(15.dp))
+    ) {
         items(7) {
             when (it) {
                 0 -> Text("My profile", modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { navController.navigate(route = NavigationRoutes.Authenticated.User.route) {
-                        popUpTo(route = NavigationRoutes.Authenticated.Home.route) {
+                    .clickable {
+                        navController.navigate(route = NavigationRoutes.Authenticated.User.route) {
+                            popUpTo(route = NavigationRoutes.Authenticated.Home.route) {
+                            }
                         }
-                    } }
+                    }
                     .padding(10.dp))
 
                 1 -> Text("Reviews", modifier = Modifier

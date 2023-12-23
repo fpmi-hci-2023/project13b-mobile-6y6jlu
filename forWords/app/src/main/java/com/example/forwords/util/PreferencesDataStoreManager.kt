@@ -1,6 +1,7 @@
 package com.example.forwords.util
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -19,6 +20,7 @@ class DataStoreManager(val context: Context) {
     }
 
     fun getUserId(): Flow<Int> = context.dataStore.data.map { pref ->
+        Log.d("MYTAG", pref[intPreferencesKey("user_id")].toString())
         pref[intPreferencesKey("user_id")] ?: 0
     }
 }
