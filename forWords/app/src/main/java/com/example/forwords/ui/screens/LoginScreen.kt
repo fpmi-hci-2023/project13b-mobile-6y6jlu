@@ -134,7 +134,7 @@ fun LoginScreen(
                 Text(text = "Log in")
             }
 
-            Spacer(modifier = Modifier.height(350.dp))
+            Spacer(modifier = Modifier.height(250.dp))
             Text(
                 text = "tip: don’t read books in moving vehicles",
                 modifier = Modifier.padding(10.dp),
