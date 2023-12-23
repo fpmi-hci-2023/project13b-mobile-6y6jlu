@@ -44,34 +44,34 @@ jobs:
           cache: 'gradle'
   
       - name: Change wrapper permissions
-        working-directory: ./forWords
         run: chmod +x ./gradlew
+        working-directory: ./forWords
 
       # Run Tests Build
       - name: Run gradle tests
-        working-directory: ./forWords
         run: ./gradlew test
+        working-directory: ./forWords
 
       # Run Build Project
       - name: Build gradle project
-        working-directory: ./forWords
         run: ./gradlew build
+        working-directory: ./forWords
 
       # Create APK Debug
       - name: Build apk debug project (APK) - ${{ env.main_project_module }} module
-        working-directory: ./forWords
         run: ./gradlew assembleDebug
+        working-directory: ./forWords
 
       # Create APK Release
       - name: Build apk release project (APK) - ${{ env.main_project_module }} module
-        working-directory: ./forWords
         run: ./gradlew assemble
+        working-directory: ./forWords
 
       # Create Bundle AAB Release
       # Noted for main module build [main_project_module]:bundleRelease
       - name: Build app bundle release (AAB) - ${{ env.main_project_module }} module
-        working-directory: ./forWords
         run: ./gradlew ${{ env.main_project_module }}:bundleRelease
+        working-directory: ./forWords
 
       # Upload Artifact Build
       # Noted For Output [main_project_module]/build/outputs/apk/debug/
