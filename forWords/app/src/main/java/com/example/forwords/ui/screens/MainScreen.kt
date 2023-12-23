@@ -27,8 +27,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.navigation.compose.rememberNavController
 import com.example.forwords.network.ApiManager
+import com.example.forwords.util.DataStoreManager
 
 
 @ExperimentalMaterial3Api
@@ -60,7 +64,7 @@ fun MainScreen(context: Context) {
             }
         }
         ) {
-            NavGraph(navHostController = navController)
+            NavGraph(navHostController = navController, context)
         }
     }
 }

@@ -13,3 +13,7 @@ val Gray100 = Color(0xFF928D8F)
 
 val LightBlue = Color(0xFF507AE4)
 val ToxicGreen = Color(0xFF0EC760)
+val TabBack = Color(0x80FFFFFF)
+val SelectedTab = Color(0xCC000000)
+val SimpleTab = Color(0xCC596275)
+val AnnBack = Color(0xE64B4B4B)

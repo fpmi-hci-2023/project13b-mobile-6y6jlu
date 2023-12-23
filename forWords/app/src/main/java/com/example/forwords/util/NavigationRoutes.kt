@@ -14,7 +14,11 @@ sealed class NavigationRoutes {
         object NavigationRoute : Authenticated(route = "authenticated")
         object Home : Authenticated(route = "home")
         object User : Authenticated(route = "user")
-        object Book: Authenticated(route = "book")
+        object Book: Authenticated(route = "book" + "/{book_id}") {
+            fun getFullRoute(book_id: Int): String {
+                return "book" + "/$book_id"
+            }
+        }
 
     }
 }

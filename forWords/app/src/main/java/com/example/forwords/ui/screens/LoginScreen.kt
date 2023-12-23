@@ -1,6 +1,7 @@
 package com.example.forwords.ui.screens
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -35,9 +36,12 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import com.example.forwords.R
 import com.example.forwords.data.LoginCredentials
 import com.example.forwords.network.ApiManager
+import com.example.forwords.util.DataStoreManager
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
@@ -46,8 +50,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun LoginScreen(
     onNavigateToRegistration: () -> Unit,
-    onNavigateToAuthenticatedRoute: () -> Unit
+    onNavigateToAuthenticatedRoute: () -> Unit,
+    context: Context
 ) {
+    val dataStoreManager = DataStoreManager(context)
     val login = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val apiService = ApiManager()
@@ -118,6 +124,9 @@ fun LoginScreen(
                 val login_cred = LoginCredentials(login.value, password.value)
                 apiService.signIn(login_cred) {
                     if(it != null) {
+                        coroutineScope.launch {
+                            dataStoreManager.saveUserId(it.userId)
+                        }
                         onNavigateToAuthenticatedRoute.invoke()
                     }
                 }
@@ -125,7 +134,7 @@ fun LoginScreen(
                 Text(text = "Log in")
             }
 
-            Spacer(modifier = Modifier.height(200.dp))
+            Spacer(modifier = Modifier.height(350.dp))
             Text(
                 text = "tip: don’t read books in moving vehicles",
                 modifier = Modifier.padding(10.dp),

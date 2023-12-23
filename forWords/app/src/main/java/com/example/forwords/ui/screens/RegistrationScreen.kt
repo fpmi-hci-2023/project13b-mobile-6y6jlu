@@ -1,6 +1,7 @@
 package com.example.forwords.ui.screens
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -30,15 +32,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.forwords.R
+import com.example.forwords.data.RegisterCredentials
+import com.example.forwords.network.ApiManager
+import com.example.forwords.util.DataStoreManager
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun RegistrationScreen(onNavigateToAuthenticatedRoute: () -> Unit) {
+fun RegistrationScreen(onNavigateToAuthenticatedRoute: () -> Unit, context: Context) {
     val login = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val email = remember { mutableStateOf("") }
     val name = remember { mutableStateOf("") }
+    val apiService = ApiManager()
+    val dataStoreManager = DataStoreManager(context)
+    val coroutineScope = rememberCoroutineScope()
 
     Image(
         painter = painterResource(id = R.drawable.background),
@@ -130,7 +139,17 @@ fun RegistrationScreen(onNavigateToAuthenticatedRoute: () -> Unit) {
                 )
             )
             Spacer(modifier = Modifier.height(20.dp))
-            Button(onClick = { }) {
+            Button(onClick = {
+                val reg_cred = RegisterCredentials(login.value, password.value, email.value, name.value, "")
+                apiService.register(reg_cred) {
+                    if(it != null) {
+                        coroutineScope.launch {
+                            dataStoreManager.saveUserId(it.userId)
+                        }
+                        onNavigateToAuthenticatedRoute.invoke()
+                    }
+                }
+            }) {
                 Text(text = "Register")
             }
 
