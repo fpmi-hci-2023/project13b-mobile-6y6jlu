@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -133,7 +134,7 @@ fun BookItem(item: BookModel, onNavigateToBook: (book_id: Int) -> Unit) {
         Column(
             modifier = Modifier.padding(top = 8.dp, start = 8.dp)
         ) {
-            Text(text = item.name)
+            Text(text = item.name, modifier = Modifier.width(200.dp))
             Spacer(modifier = Modifier.height(20.dp))
             Text(text = item.author)
         }
